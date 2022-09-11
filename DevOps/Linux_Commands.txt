@@ -1,0 +1,289 @@
+linux
+
+Directory Commands:
+...........................................................................
+
+ross@ross-VirtualBox:~$ mkdir -p temp/asia/ind/blr
+ross@ross-VirtualBox:~$ ls
+cmp-appneta  compose.cmp-appneta.tar.gz  compose.cmp-appneta.tar.gz~  Desktop  Documents  Downloads  Music  Pictures  Public  snap  temp  Templates  Videos
+
+ross@ross-VirtualBox:~$ mv temp DevOps
+
+ross@ross-VirtualBox:~$ ls
+cmp-appneta  compose.cmp-appneta.tar.gz  compose.cmp-appneta.tar.gz~  Desktop  DevOps  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
+
+ross@ross-VirtualBox:~$ cd DevOps/
+ross@ross-VirtualBox:~/DevOps$ ls
+asia
+ross@ross-VirtualBox:~/DevOps$ cd ..
+ross@ross-VirtualBox:~$ rm -r DevOps/asia
+ross@ross-VirtualBox:~$ ls
+cmp-appneta  compose.cmp-appneta.tar.gz  compose.cmp-appneta.tar.gz~  Desktop  DevOps  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
+
+ross@ross-VirtualBox:~$ ls /DevOps
+ls: cannot access '/DevOps': No such file or directory
+ross@ross-VirtualBox:~$ ls DevOps
+
+ross@ross-VirtualBox:~$ cd  DevOps; ll
+total 8
+drwxrwxr-x  2 ross ross 4096 Sep  1 05:48 ./
+drwxr-x--- 24 ross ross 4096 Sep  1 05:47 ../
+
+ross@ross-VirtualBox:~$ cp -r DevOps DevOps_Copy
+ross@ross-VirtualBox:~$ ls
+cmp-appneta  compose.cmp-appneta.tar.gz  compose.cmp-appneta.tar.gz~  Desktop  DevOps  DevOps_Copy  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
+ross@ross-VirtualBox:~$ rm -r DevOps_Copy/
+ross@ross-VirtualBox:~$ ls
+cmp-appneta  compose.cmp-appneta.tar.gz  compose.cmp-appneta.tar.gz~  Desktop  DevOps  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
+ross@ross-VirtualBox:~$ 
+
+File Commands:
+......................................................................................................
+creating a file and editing it:
+
+ross@ross-VirtualBox:~/DevOps$ sudo nano ToDos.txt  ---> within ToDos.txt then you can type text
+ross@ross-VirtualBox:~/DevOps$ ls
+Linux_Commands.txt  ToDos.txt
+ross@ross-VirtualBox:~/DevOps$ cat ToDos.txt
+ross@ross-VirtualBox:~/DevOps$ This is my ToDos
+This: command not found
+ross@ross-VirtualBox:~/DevOps$ cat > ToDos.txt
+bash: ToDos.txt: Permission denied
+ross@ross-VirtualBox:~/DevOps$ sudo cat >ToDos.txt
+bash: ToDos.txt: Permission denied
+ross@ross-VirtualBox:~/DevOps$ sudo nano ToDos.txt
+
+ross@ross-VirtualBox:~/DevOps$ cat ToDos.txt
+This is my ToDos
+
+ross@ross-VirtualBox:~/DevOps$ cp ToDos.txt new_Todos.txt 
+ross@ross-VirtualBox:~/DevOps$ ls
+Linux_Commands.txt  new_Todos.txt  ToDos.txt
+ross@ross-VirtualBox:~/DevOps$ rm new_Todos.txt 
+ross@ross-VirtualBox:~/DevOps$ ls
+Linux_Commands.txt  ToDos.txt
+
+renaming a file is essentially mv command with old file name  and new filename
+mv ToDos.txt my_ToDos.txt
+.......................................................................................................
+
+User Accounts
+
+whoami
+ross
+
+id
+uid=1000(ross) gid=1000(ross) groups=1000(ross),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),122(lpadmin),134(lxd),135(sambashare),998(docker)
+
+su zoe
+password:
+
+ssh zoe@192.168.2.2
+
+...........................................................................
+
+Download Files
+
+curl http://www.some-site.com/some_file.iso -O    --> -o types the name of file as it Downloads
+
+wget http://www.some-site.com/some-file.iso -O some-file.txt   --> -O option will be used for save as of filename
+
+or use sudo apt install
+
+......................................................................
+
+Check OS Version
+
+
+ross@ross-VirtualBox:~$ ls /etc/*release*
+/etc/lsb-release  /etc/os-release
+
+ross@ross-VirtualBox:~$ cat /etc/*release*
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=22.04
+DISTRIB_CODENAME=jammy
+DISTRIB_DESCRIPTION="Ubuntu 22.04.1 LTS"
+PRETTY_NAME="Ubuntu 22.04.1 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.1 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+
+
+......................................................................................................
+
+Package Managers
+
+dpkg --list
+
+for a specific package:
+apt list package : ex: apt list ansible
+
+......................................................................................................
+
+Running a service
+
+ross@ross-VirtualBox:~$ docker run --name user-api -d -p 8080:3001 user-service-api:latest
+22e33b1311d5edc02a4e51d98e9b564a2ab5926f5fd56cbf22ddbd8199be9903
+ross@ross-VirtualBox:~$ curl http://localhost:8080
+[{"name":"Zoe","email":"Zoe@gmail.com"},{"name":"Zol","email":"zol@gmail.com"}]ross@ross-VirtualBox:~$ 
+
+Using systemctl and .service
+
+ross@ross-VirtualBox:~/Desktop/user-service-api$ cd /etc/systemd/system
+ross@ross-VirtualBox:/etc/systemd/system$ ls
+ bluetooth.target.wants                       default.target.wants             paths.target.wants        snap-firefox-1775.mount                          sockets.target.wants
+ cloud-final.service.wants                    display-manager.service          printer.target.wants     'snap-gnome\x2d3\x2d38\x2d2004-112.mount'         sudo.service
+ dbus-fi.w1.wpa_supplicant1.service           display-manager.service.wants    rescue.target.wants      'snap-gnome\x2d3\x2d38\x2d2004-115.mount'         sysinit.target.wants
+ dbus-org.bluez.service                       emergency.target.wants           sleep.target.wants       'snap-gtk\x2dcommon\x2dthemes-1534.mount'         syslog.service
+ dbus-org.freedesktop.Avahi.service           final.target.wants               snap-bare-5.mount        'snap-gtk\x2dcommon\x2dthemes-1535.mount'         timers.target.wants
+ dbus-org.freedesktop.ModemManager1.service   getty.target.wants               snap-code-104.mount       snap-snapd-15177.mount                           user_api.service
+ dbus-org.freedesktop.nm-dispatcher.service   graphical.target.wants           snap-code-105.mount       snap-snapd-16292.mount                           vmtoolsd.service
+ dbus-org.freedesktop.oom1.service            multi-user.target.wants          snap-core-13425.mount    'snap-snapd\x2ddesktop\x2dintegration-10.mount'
+ dbus-org.freedesktop.resolve1.service        network-online.target.wants      snap-core20-1593.mount   'snap-snapd\x2ddesktop\x2dintegration-14.mount'
+ dbus-org.freedesktop.thermald.service        oem-config.service.wants         snap-core20-1611.mount   'snap-snap\x2dstore-575.mount'
+ dbus-org.freedesktop.timesync1.service       open-vm-tools.service.requires   snap-firefox-1749.mount  'snap-snap\x2dstore-582.mount'
+
+
+
+
+ross@ross-VirtualBox:/etc/systemd/system$ sudo nano user-api.service 
+
+Within user-api.service:
+
+[Service]
+ExecStart = docker start user-api
+
+ross@ross-VirtualBox:/etc/systemd/system$ systemctl daemon-reload
+ross@ross-VirtualBox:/etc/systemd/system$ systemctl start user-api
+
+ross@ross-VirtualBox:/etc/systemd/system$ systemctl status user-api
+○ user-api.service
+     Loaded: loaded (/etc/systemd/system/user-api.service; static)
+     Active: inactive (dead)
+
+Sep 01 15:46:08 ross-VirtualBox systemd[1]: Started user-api.service.
+Sep 01 15:46:08 ross-VirtualBox docker[527534]: Error response from daemon: No such container: user-api
+Sep 01 15:46:09 ross-VirtualBox docker[527534]: Error: failed to start containers: user-api
+Sep 01 15:46:09 ross-VirtualBox systemd[1]: user-api.service: Main process exited, code=exited, status=1/FAILURE
+Sep 01 15:46:09 ross-VirtualBox systemd[1]: user-api.service: Failed with result 'exit-code'.
+Sep 01 15:49:36 ross-VirtualBox systemd[1]: Started user-api.service.
+Sep 01 15:49:36 ross-VirtualBox docker[530375]: user-api
+Sep 01 15:49:36 ross-VirtualBox systemd[1]: user-api.service: Deactivated successfully.
+
+
+ross@ross-VirtualBox:/etc/systemd/system$ curl http://localhost:8080
+[{"name":"Zoe","email":"Zoe@gmail.com"},{"name":"Zol","email":"zol@gmail.com"}]
+
+To Configure it automatically when the system boots up:
+
+ross@ross-VirtualBox:/etc/systemd/system$ cat user-api.service
+
+[Unit]
+Description= My docker user-api
+
+[Service]
+ExecStart = docker start user-api
+Restart=always
+
+[Install]
+
+WantedBy = multi-user.target
+
+
+
+## systemctl enable user-api
+
+
+......................................................................................
+
+Enabling SSH on Ubuntu
+
+sudo apt update
+sudo apt install openssh-server
+sudo systemctl status ssh
+
+ross@ross-VirtualBox:/etc/systemd/system$ sudo systemctl status ssh
+[sudo] password for ross: 
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2022-09-02 07:11:21 PDT; 31min ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+   Main PID: 880 (sshd)
+      Tasks: 1 (limit: 51772)
+     Memory: 3.6M
+        CPU: 17ms
+     CGroup: /system.slice/ssh.service
+             └─880 "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups"
+
+Sep 02 07:11:21 ross-VirtualBox systemd[1]: Starting OpenBSD Secure Shell server...
+Sep 02 07:11:21 ross-VirtualBox sshd[880]: Server listening on 0.0.0.0 port 22.
+Sep 02 07:11:21 ross-VirtualBox sshd[880]: Server listening on :: port 22.
+Sep 02 07:11:21 ross-VirtualBox systemd[1]: Started OpenBSD Secure Shell server.
+
+sudo ufw allow ssh
+
+C:\Users\rakes>ssh ross@192.168.1.107
+ross@192.168.1.107's password:
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-47-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+11 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Last login: Thu Sep  1 17
+
+Q: Help us install java 13 inside /opt directory on app01 server
+
+ssh app01 to login to app01 server and run below command to download
+sudo curl https://download.java.net/java/GA/jdk13.0.2/d4173c853231432d94f001e99d882ca7/8/GPL/openjdk-13.0.2_linux-x64_bin.tar.gz --output /opt/openjdk-13.0.2_linux-x64_bin.tar.gz
+
+To uncompress run sudo tar -xf /opt/openjdk-13.0.2_linux-x64_bin.tar.gz -C /opt/
+
+To verify run /opt/jdk-13.0.2/bin/java -version on app01 and confirm correct version is installed
+
+We need to set java binary path in environment PATH variable to use java binaries. So that you can simply run java instead of the full path.
+Once done verify that you can invoke java simply by running java command.
+
+
+export PATH=$PATH:/opt/jdk-13.0.2/bin
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+Find a directory :
+
+To find a directory called apt in / (root) file system, enter:
+
+find / -type d -name "apt" 
+sudo find / -type d -name "apt"
+
+..........................................   ....................................................
+
+Run: sudo npm install file -g to install file module globally.
+
+
+
+
+
+
+
+
+
+
+
+
